@@ -1,21 +1,21 @@
 const helpers = {
-	// eslint-disable-next-line max-lines-per-function
 	setStatus: (previous, current) => {
 		const { results, remaining } = current.reduce((acc, currentEntity) => {
 			const { results, remaining } = acc;
 			const { textField: currentText } = currentEntity;
-			const isExists = remaining.findIndex(({ textField: previousText }) =>
+			const matchedEntity = remaining.findIndex(({ textField: previousText }) =>
 				previousText === currentText);
+			const isExists = matchedEntity !== -1;
 
 			return {
 				results: [
 					...results,
 					{
-						...currentEntity,
-						...{ _status: isExists !== -1 ? 'sync' : 'create' },
+						...isExists ? previous[matchedEntity] : currentEntity,
+						...{ _status: isExists ? 'sync' : 'create' },
 					},
 				],
-				remaining: remaining.filter((val, index) => index !== isExists),
+				remaining: remaining.filter((val, index) => index !== matchedEntity),
 			};
 		}, { results: [], remaining: previous });
 
