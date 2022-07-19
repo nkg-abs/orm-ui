@@ -11,7 +11,7 @@ const helpers = {
 				results: [
 					...results,
 					{
-						...isExists ? previous[matchedEntity] : currentEntity,
+						...isExists ? remaining[matchedEntity] : currentEntity,
 						...{ _status: isExists ? 'sync' : 'create' },
 					},
 				],
