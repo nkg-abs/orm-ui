@@ -1,9 +1,11 @@
 const helpers = {
-	setStatus: (previous, current) => {
+	setStatus: (
+		previous, current, fieldName
+	) => {
 		const { results, remaining } = current.reduce((acc, currentEntity) => {
 			const { results, remaining } = acc;
-			const { textField: currentText } = currentEntity;
-			const matchedEntity = remaining.findIndex(({ textField: previousText }) =>
+			const { [fieldName]: currentText } = currentEntity;
+			const matchedEntity = remaining.findIndex(({ [fieldName]: previousText }) =>
 				previousText === currentText);
 			const isExists = matchedEntity !== -1;
 
